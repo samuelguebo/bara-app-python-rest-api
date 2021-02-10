@@ -4,8 +4,10 @@ import json
 import requests
 import re
 import sys
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-class Educarriere():
+class EducarriereCron():
 	ROOT_URL        = "https://emploi.educarriere.ci/"
 	PROVIDER_NAME   = "EDUCARRIERE"
 	URL_LIST      	= ROOT_URL + "nos-offres"
@@ -38,6 +40,6 @@ class Educarriere():
 				expDate = matches[1]
 				print(link, title, desc, pubDate, expDate, '\n')
 
+# educarriere = EducarriereCron()
+# educarriere.scrape_all_pages()
 
-educarriere = Educarriere()
-educarriere.scrape_all_pages()

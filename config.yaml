@@ -1,5 +1,0 @@
-GREETING: Akwaba!
-TITLE: Barra
-DESCRIPTION: Backend API of a Barra, a mobile application featuring job offers
-SECRET_KEY: $(python -c "import os; print repr(os.urandom(24))")
-NAMESPACE: Access to nonpublic personal data policy/Noticeboard

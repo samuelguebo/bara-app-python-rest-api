@@ -6,7 +6,7 @@ import re
 import json
 
 app = Flask(__name__)
-home = Blueprint('home', __name__)
+home = Blueprint('home_bp', __name__)
 
 
 @home.route('/')
