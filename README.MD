@@ -1,6 +1,18 @@
-## Barra API
+# Barra API
 Technical backend for Barra, a mobile applications featuring customized job offers.
 
-## Sync folder
-Run the following command to make sure [nodemon](https://github.com/remy/nodemon) pushes every changes
-`FLASK_ENV=development && nodemon -e js,css,html,py -x "flask run --reload --port=5000"`
+## Requirements
+
+
+## Requirements
+* [Python 3.x+](https://www.python.org/downloads/)
+* [PIP (Python Dependency Manager)](https://pip.pypa.io/en/stable/installing/)
+
+## Installing dependencies
+Install application dependencies with `pip install -r requirements.txt`.
+
+## Quickstart the app
+```bash
+export FLASK_APP=app.py # add --reload parameter to enable Flask auto-compilation feature
+flask run
+```
