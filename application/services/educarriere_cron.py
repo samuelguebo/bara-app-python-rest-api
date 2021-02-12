@@ -5,17 +5,19 @@ import requests
 import re
 import sys
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from ..models.offer import Offer
+from ..dao.offer_dao import OfferDao
 
 class EducarriereCron():
 	ROOT_URL        = "https://emploi.educarriere.ci/"
 	PROVIDER_NAME   = "EDUCARRIERE"
 	URL_LIST      	= ROOT_URL + "nos-offres"
 
-	def __init__(self):
+	def __init__(self, db):
 		self = self
+		self.db = db
 
-	def scrape_all_pages(self):
+	def init(self):
 		for i in range(1):
 			url = '{}?page1={}'.format(self.URL_LIST, i)
 			self.scrape_home_page(url)
@@ -38,8 +40,8 @@ class EducarriereCron():
 			if len(matches) > 1:
 				pubDate = matches[0]
 				expDate = matches[1]
-				print(link, title, desc, pubDate, expDate, '\n')
+				offer = Offer(link, title, desc, pubDate, expDate)
 
-# educarriere = EducarriereCron()
-# educarriere.scrape_all_pages()
-
+				# save to database
+				dao = OfferDao(self.db)
+				dao.create(offer)

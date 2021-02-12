@@ -1,13 +1,12 @@
 from flask import Flask
 from flask import Blueprint, jsonify
-from database import db
 test_bp = Blueprint('test_bp', __name__)
-
 
 @test_bp.route('/test')
 def index():
     
     # Models should be imported after the app is created
+    from .. import db
     from ..models.offer import Offer
     from ..models.user import User
 

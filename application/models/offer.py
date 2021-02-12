@@ -1,4 +1,5 @@
-from database import db
+from .. import db
+
 class Offer(db.Model):   
 
     url = db.Column(db.String(64), primary_key=True, unique=True)
