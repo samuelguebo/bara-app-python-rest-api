@@ -2,7 +2,11 @@ class OfferDao():
     
     def __init__(self, db):
         self = self
+        self.db = db
+
+        # In case table does not exist
+        db.create_all()
 
     def create(self, offer):
-        self.db.session.add(self.offer)
+        self.db.session.add(offer)
         self.db.session.commit()

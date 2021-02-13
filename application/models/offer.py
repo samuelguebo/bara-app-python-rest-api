@@ -2,11 +2,11 @@ from .. import db
 
 class Offer(db.Model):   
 
-    url = db.Column(db.String(64), primary_key=True, unique=True)
-    title = db.Column(db.String(64))
-    content = db.Column(db.String(64))
-    pubDate = db.Column(db.String(64))
-    expDate = db.Column(db.String(64))
+    url = db.Column(db.VARCHAR(300), primary_key=True, unique=True)
+    title = db.Column(db.VARCHAR(300))
+    content = db.Column(db.VARCHAR(300))
+    pubDate = db.Column(db.VARCHAR(300))
+    expDate = db.Column(db.VARCHAR(300))
     
     def __init__(self, url, title, content, pubDate, expDate):
         self.url = url
