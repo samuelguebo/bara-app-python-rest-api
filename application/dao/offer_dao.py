@@ -8,5 +8,5 @@ class OfferDao():
         db.create_all()
 
     def create(self, offer):
-        self.db.session.add(offer)
+        self.db.session.merge(offer)
         self.db.session.commit()
