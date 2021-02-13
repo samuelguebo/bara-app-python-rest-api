@@ -9,3 +9,5 @@ class Config(object):
     NAMESPACE = config('NAMESPACE')
     DATABASE_URL = config('DATABASE_URL')
     CRON_LOG_PATH = config('CRON_LOG_PATH')
+    DEGREE_REGEX = config('DEGREE_REGEX')
+    TYPE_REGEX = config('TYPE_REGEX')

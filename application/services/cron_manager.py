@@ -87,6 +87,11 @@ class CronManager():
         :param cache_delay: Time lapse since last run
                             in hours
         """
+        
+        # run anyway if its is the first time
+        if os.path.exists(self.path):
+            self.generate_log()
+            self.cron.run()
 
         latest_time_stamp = datetime.fromtimestamp(self.get_latest_cron())
         now = datetime.fromtimestamp(time())
