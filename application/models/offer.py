@@ -1,8 +1,9 @@
 from .. import db
 from .tag import Tag
 from .degree import Degree
+from sqlalchemy_serializer import SerializerMixin
 
-class Offer(db.Model):   
+class Offer(db.Model, SerializerMixin):   
 
     url = db.Column(db.VARCHAR(300), primary_key=True, unique=True)
     title = db.Column(db.VARCHAR(300))
@@ -12,6 +13,10 @@ class Offer(db.Model):
     pubDate = db.Column(db.VARCHAR(300))
     expDate = db.Column(db.VARCHAR(300))
     
+    # JSON Serialization
+    serialize_only = ('url', 'title', 'type', 'pubDate', 'expDate')
+    serialize_rules = ('-tags', '-degrees')
+
     def __init__(self, url, title, content, pubDate, expDate):
         self.url = url
         self.title = title

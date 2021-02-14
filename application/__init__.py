@@ -5,6 +5,7 @@ from config import Config
 from .routes import home
 from .routes import test
 from .routes import cron
+from .routes import offer
 
 # Globally accessible libraries
 db = SQLAlchemy()
@@ -23,5 +24,6 @@ def create_app(register_blueprints=True):
             app.register_blueprint(test.test_bp)
             app.register_blueprint(home.home_bp)
             app.register_blueprint(cron.cron_bp)
+            app.register_blueprint(offer.offer_bp, url_prefix='/offer')
 
     return app
