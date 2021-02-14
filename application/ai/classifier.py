@@ -1,4 +1,5 @@
 from pickle5 import pickle
+import inspect
 import requests
 
 class Classifier:
@@ -7,6 +8,9 @@ class Classifier:
 	previsouly serialized using Pickle
 	"""
 
+	def __init__(self) -> None:
+		pass
+	
 	def predict_category(self, offer):
 		"""
 		Classify job offer and generate
@@ -16,8 +20,8 @@ class Classifier:
 		"""
 		
 		# load saved model and vectorizer
-		model_path = '.job_classification_model.pickle'
-		vect_path = '.job_classification_vect.pickle'
+		model_path = 'application/ai/job_classification_model.pickle'
+		vect_path = 'application/ai/job_classification_vect.pickle'
 
 		saved_model = pickle.load(open(model_path, 'rb'))
 		saved_vect = pickle.load(open(vect_path, 'rb'))
@@ -34,10 +38,10 @@ class Classifier:
 			7: 'Communication / Marketing',
 		}
 		
-		tag_values = saved_model.transform(saved_vect.transform([offer.desc]))
+		tag_values = saved_model.transform(saved_vect.transform([offer.content]))
 
 		# do the prediction
-		dominant_tag_id = tag_values.argmax(axis=1)[0]
-		predicted_tag = tags[dominant_tag_id]
+		dominant_tag_ids = tag_values.argmax(axis=1)
+		predicted_tags = [tags[x] for x in dominant_tag_ids]
 
-		return predicted_tag
+		return predicted_tags

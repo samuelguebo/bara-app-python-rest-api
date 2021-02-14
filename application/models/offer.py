@@ -6,9 +6,9 @@ class Offer(db.Model):
 
     url = db.Column(db.VARCHAR(300), primary_key=True, unique=True)
     title = db.Column(db.VARCHAR(300))
-    type = db.Column(db.String(64), nullable=True)
+    type = db.Column(db.String(64), nullable=True, default='PENDING')
     status = db.Column(db.String(64), nullable=True)
-    content = db.Column(db.VARCHAR(300))
+    content = db.Column(db.Text())
     pubDate = db.Column(db.VARCHAR(300))
     expDate = db.Column(db.VARCHAR(300))
     
@@ -20,7 +20,7 @@ class Offer(db.Model):
         self.expDate = expDate
 
     def __repr__(self):
-        return '<Offer {}>'.format(self.title)
+        return '<Offer {} {}>'.format(self.title, self.type)
 
     def set_satus(self, status):
         self.status = status

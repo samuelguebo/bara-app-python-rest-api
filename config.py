@@ -11,3 +11,4 @@ class Config(object):
     CRON_LOG_PATH = config('CRON_LOG_PATH')
     DEGREE_REGEX = config('DEGREE_REGEX')
     TYPE_REGEX = config('TYPE_REGEX')
+    DEFAULT_TYPE = config('DEFAULT_TYPE')
