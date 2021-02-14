@@ -18,6 +18,6 @@ def index():
     from ..services.cron_manager import CronManager
     cron = EducarriereCron()
     manager = CronManager(cron)
-    manager.run(3)
+    manager.run()
     data = datetime.fromtimestamp(manager.get_latest_cron())
     return (str(data), 200)
