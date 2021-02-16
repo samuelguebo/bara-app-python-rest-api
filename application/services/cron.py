@@ -1,7 +1,12 @@
+from application.models.degree import Degree
+from application.models.tag import Tag
+from application.models.offer import DeegreeSchema, Offer, TagsSchema
+from application.ai.classifier import Classifier
+from application.dao.offer_dao import OfferDao
 import re
 from bs4 import BeautifulSoup
 import requests
-from config import Config
+from config import Config, db
 
 class Cron:
 	"""
@@ -9,6 +14,11 @@ class Cron:
 	Cron tasks will inherit this class 
 	"""
 	ID = 'default'
+	CACHE_DELAY = 12 # twelve hours by default
+	DETAILS_SELECTOR = '.detailsOffre > div:not(.content-area)'
+	OFFERS_SELECTOR = 'ul#myList .box.row'
+	TITLES_SELECTOR = '.text-col h4 a'
+	DESC_SELECTOR = '.text-col .entry-title a'		
 
 	def __init__(self):
 		self = self
@@ -22,7 +32,7 @@ class Cron:
 		"""
 		
 		matches = []
-		matches = [match for match in re.findall(regexPattern, text)]
+		matches = [match.replace(' ', '') for match in re.findall(regexPattern, text)]
 
 		# Grab only first item
 		if len(matches) == 1 or (len(matches) > 0 and unique):
@@ -46,12 +56,54 @@ class Cron:
     
 	def extractDegrees(self, text):
 		"""Extract the education level requirements"""
-		return self.extractWithRegex(text.upper(), Config.DEGREE_REGEX)
+		degrees = self.extractWithRegex(text.upper(), Config.DEGREE_REGEX)
+		if isinstance(degrees, list):
+			degrees = [Degree(x) for x in set(degrees)]
+		else:
+			degrees = [Degree(degrees)]
+		
+		return degrees
 
 	def extractType(self, text):
 		"""Extract the type of job offer"""
+		
 		result = self.extractWithRegex(text.upper(), Config.TYPE_REGEX, True)
 		if len(result) < 1:
 			return Config.DEFAULT_TYPE
 		
 		return result
+
+	def scrape_home_page(self, url_list):
+		"""Comb through url to extract content"""
+		html_doc = requests.get(url_list).text
+		soup = BeautifulSoup(html_doc, 'html.parser')
+		nodes = soup.select(self.OFFERS_SELECTOR)
+		
+		for node in nodes:
+
+			# Data mapping
+			url = "".join([x['href'] for x in node.select(self.TITLES_SELECTOR)])
+			title = "".join([x.get_text() for x in node.select(self.TITLES_SELECTOR)])
+			desc = "".join([x.get_text() for x in node.select(self.DESC_SELECTOR)])
+			datesRegx = "[0-9]{2}\\/[0-9]{2}\\/[0-9]{4}"
+			matches = re.findall(datesRegx, node.get_text())
+
+			pubDate = None
+			expDate = None
+
+			if len(matches) > 1:
+				pubDate = matches[0]
+				expDate = matches[1]
+
+			# Extract additional details: degree, type of offers, etc.
+			print('{} {} {}'.format(url, title, desc, pubDate, expDate))
+			offer = Offer(url, title, desc, pubDate, expDate)
+			offer.content = self.extractContent(url, self.DETAILS_SELECTOR)
+			offer.degrees = self.extractDegrees(offer.content)
+			offer.set_type(self.extractType(offer.content))
+			offer.tags = [Tag(x) for x in Classifier().predict_category(offer)]
+			
+
+			# Save to database
+			dao = OfferDao(db)
+			dao.create(offer)

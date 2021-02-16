@@ -1,20 +1,18 @@
-from application.models.alchemy_encoder import AlchemyEncoder
-import flask
 from flask import Blueprint
 from flask import Flask, jsonify
-import os
-import re
-import json
+from config import db
+from application.dao.offer_dao import OfferDao
+from application.models.offer import Offer
+from application.models.offer import OfferSchema
 
 app = Flask(__name__)
 offer_bp = Blueprint('offer_bp', __name__)
 
+
 @offer_bp.route('/')
 def index():
-    from application.dao.offer_dao import OfferDao
-    from application import db
     
-    result = [x.to_dict() for x in OfferDao(db).fetch(5)]
-    data = result
-    #data = jsonify(json.dumps(result, cls=AlchemyEncoder))
+    offer_schema = OfferSchema(many=True) 
+    data = offer_schema.dump(Offer.query.limit(5))
+    
     return (jsonify(data), 200)

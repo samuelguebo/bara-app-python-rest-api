@@ -2,14 +2,12 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from config import Config
+from config import db
+from config import migrate
 from .routes import home
 from .routes import test
 from .routes import cron
 from .routes import offer
-
-# Globally accessible libraries
-db = SQLAlchemy()
-migrate = Migrate()
 
 def create_app(register_blueprints=True):
     app = Flask(__name__, instance_relative_config=True)

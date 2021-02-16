@@ -1,4 +1,4 @@
-from .. import db
+from config import db
 
 class Tag(db.Model): 
 

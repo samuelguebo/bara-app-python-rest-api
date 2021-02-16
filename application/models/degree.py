@@ -1,4 +1,6 @@
-from .. import db
+from config import db
+from sqlalchemy_serializer import SerializerMixin
+
 
 class Degree(db.Model): 
 
@@ -8,4 +10,5 @@ class Degree(db.Model):
     def __init__(self, title):
         self.title = title
 
-        
+    def __repr__(self):
+        return '<Degree {}>'.format(self.title)

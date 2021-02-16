@@ -3,7 +3,6 @@ from .. import create_app
 import json
 from config import Config
 from time import time
-from datetime import timedelta
 from datetime import datetime
 
 class CronManager():
@@ -13,31 +12,29 @@ class CronManager():
     which contains ID and timestamp of recently run
     cron operations
     """
-    
-    def __init__(self, cron):
+
+    def __init__(self):
         """
         Default constructor with will initiate
         some varibales and make them available
         to the class methods.
-
-        :param cron: a Cron object or of its children
         """
         self = self
-        self.cron = cron
         self.path = Config.CRON_LOG_PATH
         self.log = json.loads(self.get_cron_log())
+        self.tasks = []
     
-    def get_latest_cron(self):
+    def get_latest_cron(self, cron):
         """ 
         Get the timestamp of the latest cron operation
         which was ran for a specific Cron object.
         """
         
-        if self.cron.ID not in self.log:
-            self.generate_log()
+        if cron.ID not in self.log:
+            self.generate_log(cron)
             self.log = json.loads(self.get_cron_log())
         
-        return self.log[self.cron.ID]
+        return self.log[cron.ID]
 
     def get_cron_log(self):
         """
@@ -53,13 +50,13 @@ class CronManager():
         
         return content
     
-    def generate_log(self):
+    def generate_log(self, cron):
         """
         Create a new timestamp with the relevant
         Cron ID in the logs.
         """
         
-        self.log[self.cron.ID] = time()
+        self.log[cron.ID] = time()
         self.update_cron_log(self.log)
         
         return True
@@ -79,7 +76,32 @@ class CronManager():
         
         return True
 
-    def run(self, cache_delay):
+    
+    def add(self, cron):
+        """
+        Build and array of cron operations
+
+        :param cron: a Cron object or of its children
+        """
+        self.tasks.append(cron)
+
+    
+    def run_all(self):
+        """
+        Process all cron operations in a sequential batch. 
+        TODO: explore asyncronicity
+        """
+        for cron in self.tasks:
+            self.run(cron)
+
+    def reset(self):
+        """
+        Reset tasks list
+        """
+        self.tasks = []
+
+    def run(self, cron):
+
         """ 
         Process the Cron task if the time lapse since
         the latest operation exceed the cache_delay
@@ -89,17 +111,20 @@ class CronManager():
         """
         
         # run anyway if its is the first time
-        if os.path.exists(self.path):
-            self.generate_log()
-            self.cron.run()
+        if cron.ID not in self.log:
+            self.generate_log(cron)
+            cron.run()
+            return True
 
-        latest_time_stamp = datetime.fromtimestamp(self.get_latest_cron())
+        latest_time_stamp = datetime.fromtimestamp(self.get_latest_cron(cron))
         now = datetime.fromtimestamp(time())
 
         # Difference in hours
-        delay = (now - latest_time_stamp).seconds / 3600
+        lapsed_time = (now - latest_time_stamp).seconds / 3600
         
         # If last cron operation happened n hours ago
-        if cache_delay < delay:
-            self.cron.run()
+        if cron.CACHE_DELAY < lapsed_time:
+            cron.run()
+            self.generate_log(cron)
+            return True
         
