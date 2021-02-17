@@ -19,6 +19,7 @@ class CronManager():
         some varibales and make them available
         to the class methods.
         """
+        
         self = self
         self.path = Config.CRON_LOG_PATH
         self.log = json.loads(self.get_cron_log())
@@ -83,8 +84,8 @@ class CronManager():
 
         :param cron: a Cron object or of its children
         """
+        
         self.tasks.append(cron)
-
     
     def run_all(self):
         """

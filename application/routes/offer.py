@@ -13,6 +13,6 @@ offer_bp = Blueprint('offer_bp', __name__)
 def index():
     
     offer_schema = OfferSchema(many=True) 
-    data = offer_schema.dump(Offer.query.limit(5))
+    data = offer_schema.dump(Offer.query.limit(30))
     
     return (jsonify(data), 200)
