@@ -1,8 +1,8 @@
 from config import db
-from config import ma
-from .tag import Tag
 from .degree import Degree
-from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field, fields
+from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
+from marshmallow import fields
+from application.services.image_placeholder import ImagePlaceholder
 
 class Offer(db.Model):   
 
@@ -45,8 +45,7 @@ class Offer(db.Model):
 	)
 	degrees = db.relationship('Degree', secondary=offer_degrees_table, lazy='subquery',
 		backref=db.backref('offers', lazy=True))
-
-
+	
 # Serialization
 class DeegreeSchema(SQLAlchemySchema):
 	class Meta:
@@ -76,3 +75,5 @@ class OfferSchema(SQLAlchemySchema):
 	content = auto_field()
 	degrees = fields.Nested(DeegreeSchema, many=True)
 	tags = fields.Nested(TagsSchema, many=True)
+	# TODO: Replace with dynamic tags
+	image = fields.Function(lambda x: ImagePlaceholder().get_image('Technology'))

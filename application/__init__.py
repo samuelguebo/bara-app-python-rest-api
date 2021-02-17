@@ -9,7 +9,11 @@ from .routes import cron
 from .routes import offer
 
 def create_app(register_blueprints=True):
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, instance_relative_config=True,
+                static_url_path='', 
+                static_folder=Config.ROOT_FOLDER + '/static',
+                template_folder=Config.ROOT_FOLDER + '/templates')
+
     app.config.from_object(Config)
     db.init_app(app)
     migrate.init_app(app, db)

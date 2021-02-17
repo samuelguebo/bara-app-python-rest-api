@@ -5,9 +5,7 @@ from application.dao.offer_dao import OfferDao
 from application.models.offer import Offer
 from application.models.offer import OfferSchema
 
-app = Flask(__name__)
 offer_bp = Blueprint('offer_bp', __name__)
-
 
 @offer_bp.route('/')
 def index():

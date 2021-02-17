@@ -4,7 +4,6 @@ from flask import Blueprint
 from flask import Flask, jsonify
 import timeago
 
-app = Flask(__name__)
 cron_bp = Blueprint('cron_bp', __name__)
 
 @cron_bp.route('/cron')
