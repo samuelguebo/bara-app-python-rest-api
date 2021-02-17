@@ -9,7 +9,6 @@ from application.ai.classifier import Classifier
 
 class TestCron:
     """Test for AI predictions."""
-    '''
     def test_predict(self):
         url = 'https://emploi.educarriere.ci/offre-69336-office-manager.html'
         selector = '.detailsOffre > div:not(.content-area)'
@@ -18,4 +17,3 @@ class TestCron:
         print(tags)
         assert True
         
-    '''
