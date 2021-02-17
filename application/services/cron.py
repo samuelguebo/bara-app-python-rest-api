@@ -1,3 +1,5 @@
+from datetime import datetime
+import time
 from application.models.degree import Degree
 from application.models.tag import Tag
 from application.models.offer import DeegreeSchema, Offer, TagsSchema
@@ -24,6 +26,7 @@ class Cron:
 	def __init__(self):
 		self = self
 
+
 	def extractWithRegex(self, text, regexPattern, unique=False):
 		"""
 		Use a Regex expression to extract certain portions of texts
@@ -41,6 +44,7 @@ class Cron:
 		
 		return matches
 
+
 	def extractContent(self, url, selector):
 		"""
 		Scan through url to get page content 
@@ -55,6 +59,7 @@ class Cron:
 
 		return content.replace("\n\n", " ")
     
+
 	def extractDegrees(self, text):
 		"""
 		Extract the education level requirements
@@ -68,6 +73,7 @@ class Cron:
 		
 		return degrees
 
+
 	def extractType(self, text):
 		"""
 		Extract the type of job offer
@@ -78,6 +84,7 @@ class Cron:
 			return Config.DEFAULT_TYPE
 		
 		return result
+
 
 	def scrape_home_page(self, url):
 		"""
@@ -118,6 +125,11 @@ class Cron:
 				dao = OfferDao(db)
 				dao.create(offer)
 
+
 	def extract_dates(self, text):
+		"""
+		Extract dates from the content
+		of a job offer.
+		"""
 		datesRegx = "[0-9]{2}[\/\s]?[0-9]{2}[\/\s]?[0-9]{4}"
 		return re.findall(datesRegx, text)
