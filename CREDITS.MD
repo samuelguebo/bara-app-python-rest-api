@@ -1,0 +1,11 @@
+## Photo credits (Unsplash)
+### Technology
+- [Daniel Josef](https://unsplash.com/@josef_photography)
+- [Domenico Loia](https://unsplash.com/@domenicoloia)
+- [Annie Spratt](https://unsplash.com/@anniespratt)
+- [Chris Ried](https://unsplash.com/@cdr6934)
+- [dole777](https://unsplash.com/@dole777)
+- [Chris J. Davis](https://unsplash.com/@chrisjdavis)
+- [heylagostechie](https://unsplash.com/@heylagostechie)
+- [Radowan Nakif Rehan](https://unsplash.com/@radowanrehan)
+- [Fotis Fotopoulos](https://unsplash.com/@ffstop)
