@@ -11,6 +11,6 @@ class AtooCron(Cron):
 	DETAILS_SELECTOR = '.job-desc'
 
 	def run(self):
-		for i in range(1):
+		for i in range(self.page_number):
 			url = '{}/page/{}'.format(self.URL_LIST, i)
 			self.scrape_home_page(url)

@@ -6,6 +6,7 @@ from application.dao.offer_dao import OfferDao
 from application.models.offer import Offer
 from application import db
 from application.ai.classifier import Classifier
+from application.services.educarriere_cron import EducarriereCron
 
 class TestCron:
     """
@@ -13,9 +14,9 @@ class TestCron:
     triggering and evaluating AI predictions.
     """
     def test_predict(self):
-        url = 'https://emploi.educarriere.ci/offre-69336-office-manager.html'
-        selector = '.detailsOffre > div:not(.content-area)'
-        content = Cron().extractContent(url, selector)
+        
+        url = 'https://emploi.educarriere.ci/offre-69540-stagiaires-commerciaux.html'
+        content = Cron().extractContent(url, EducarriereCron.DETAILS_SELECTOR)
         tags = Classifier().predict_category(Offer(url, "Test 1", content, "", ""))
         print(tags)
         

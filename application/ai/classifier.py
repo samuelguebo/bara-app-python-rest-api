@@ -8,7 +8,7 @@ class Classifier:
 	previsouly serialized using Pickle
 	"""
 
-	def __init__(self) -> None:
+	def __init__(self):
 		pass
 	
 	def predict_category(self, offer):
@@ -37,6 +37,17 @@ class Classifier:
 			6: 'Logistique / Transport',
 			7: 'Communication / Marketing',
 		}
+		
+		"""
+			'Finance',
+			'Gestion de projets',
+			'Communication',
+			'Marketing,
+			'Entrepeneuriat',
+			'Informatique',
+			'Management',
+			'Transport',
+		"""
 		
 		tag_values = saved_model.transform(saved_vect.transform([offer.content]))
 

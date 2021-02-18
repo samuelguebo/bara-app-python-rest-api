@@ -11,6 +11,6 @@ class EducarriereCron(Cron):
 	DETAILS_SELECTOR = '.detailsOffre > div:not(.content-area)'
 
 	def run(self):
-		for i in range(1):
+		for i in range(self.page_number):
 			url = '{}?page1={}'.format(self.URL_LIST, i)
 			self.scrape_home_page(url)

@@ -11,6 +11,6 @@ class AEJCron(Cron):
 	DETAILS_SELECTOR = '#DIV_2 .col-md-8'
 
 	def run(self):
-		for i in range(1):
+		for i in range(self.page_number):
 			url = '{}?page={}'.format(self.URL_LIST, i)
 			self.scrape_home_page(url)

@@ -1,5 +1,4 @@
-from datetime import datetime
-import time
+from datetime import datetime, timedelta
 from application.models.degree import Degree
 from application.models.tag import Tag
 from application.models.offer import DeegreeSchema, Offer, TagsSchema
@@ -24,8 +23,8 @@ class Cron:
 	DESC_SELECTOR = '.text-col .entry-title a'
 	PENDING = 'PENDING'		
 
-	def __init__(self):
-		self = self
+	def __init__(self, page_number):
+		self.page_number = page_number
 
 
 	def extractWithRegex(self, text, regexPattern, unique=False):
@@ -104,11 +103,11 @@ class Cron:
 			desc = "".join([x.get_text() for x in node.select(self.DESC_SELECTOR)])
 			dates = self.extract_dates(node.get_text())
 
-			pub_date = None
+			# if empty pub_date is always generated automatically
+			pub_date = dates[0]
 			exp_date = None
-
+			
 			if len(dates) > 1:
-				pub_date = dates[0]
 				exp_date = dates[1]
 
 			# Check whether we have a valid url
@@ -134,4 +133,11 @@ class Cron:
 		of a job offer.
 		"""
 		datesRegx = "[0-9]{2}[\/\s]?[0-9]{2}[\/\s]?[0-9]{4}"
-		return re.findall(datesRegx, text)
+		dates = re.findall(datesRegx, text)
+		
+		if len(dates) < 1:	
+			# Default pub_date is now, and expiration is 2 weeks away
+			dates = [datetime.now().strftime('%d/%m/%Y'),
+						(datetime.now() + timedelta(days=14)).strftime('%d/%m/%Y')]
+		
+		return dates
