@@ -4,11 +4,15 @@ from application.services.educarriere_cron import EducarriereCron
 from application.services.cron import Cron
 
 class TestCron:
-	"""Test for cron operations."""
+	"""
+	Test suite for Cron objects
+	and their relevant methods
+	"""
 	
 	def test_extract_type(self):
-		""" Test the extraction of type of job offer
-			out of the job description
+		"""
+		Test the extraction of type of job offer
+		out of the job description
 		"""
 		url = 'https://emploi.educarriere.ci/offre-69336-office-manager.html'
 		content = Cron().extractContent(url, EducarriereCron.DETAILS_SELECTOR)
@@ -18,8 +22,9 @@ class TestCron:
 		assert 'CDI' in type
 
 	def test_extract_content(self):
-		""" Test the extracting full content of 
-			out of URL provided
+		"""
+		Test the extracting full content of 
+		out of URL provided
 		"""
 		url = 'https://emploi.educarriere.ci/offre-69336-office-manager.html'
 		selector = '.detailsOffre > div:not(.content-area)'

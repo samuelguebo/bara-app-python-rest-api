@@ -8,12 +8,16 @@ from application import db
 from application.ai.classifier import Classifier
 
 class TestCron:
-    """Test for AI predictions."""
+    """
+    Test suite for the machine learning Classifier,
+    triggering and evaluating AI predictions.
+    """
     def test_predict(self):
         url = 'https://emploi.educarriere.ci/offre-69336-office-manager.html'
         selector = '.detailsOffre > div:not(.content-area)'
         content = Cron().extractContent(url, selector)
         tags = Classifier().predict_category(Offer(url, "Test 1", content, "", ""))
         print(tags)
+        
         assert True
         
