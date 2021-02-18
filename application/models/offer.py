@@ -11,15 +11,15 @@ class Offer(db.Model):
 	type = db.Column(db.String(64), nullable=True, default='PENDING')
 	status = db.Column(db.String(64), nullable=True)
 	content = db.Column(db.Text())
-	pubDate = db.Column(db.VARCHAR(300))
-	expDate = db.Column(db.VARCHAR(300))
+	pub_date = db.Column(db.VARCHAR(300))
+	exp_date = db.Column(db.VARCHAR(300))
 
-	def __init__(self, url, title, content, pubDate, expDate):
+	def __init__(self, url, title, content, pub_date, exp_date):
 		self.url = url
 		self.title = title
 		self.content = content
-		self.pubDate = pubDate
-		self.expDate = expDate
+		self.pub_date = pub_date
+		self.exp_date = exp_date
 
 	def __repr__(self):
 		return '<Offer {} {}>'.format(self.title, self.type)
@@ -69,8 +69,8 @@ class OfferSchema(SQLAlchemySchema):
 
 	url = auto_field()
 	title = auto_field()
-	pubDate = auto_field()
-	expDate = auto_field()
+	pub_date = auto_field()
+	exp_date = auto_field()
 	type = auto_field()
 	content = auto_field()
 	degrees = fields.Nested(DeegreeSchema, many=True)

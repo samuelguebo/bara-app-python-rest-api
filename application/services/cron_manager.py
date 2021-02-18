@@ -5,18 +5,20 @@ from datetime import datetime
 class CronManager():
 	"""
 	Helper class for triggering cron operations. It avoids 
-	unecessary operations by relying on a log file
-	which contains ID and timestamp of recently run
-	cron operations
+	unecessary cron tasks by relying on a log file,
+	a sort of cache, which contains ID and timestamp
+	of recently run cron operations.
+
+	TODO: Parrelizing operations through multiprocessing
+	:link: https://docs.python.org/3/library/multiprocessing.html
 	"""
 
 	def __init__(self):
 		"""
-		Default constructor with will initiate
+		Default constructor which will initiate
 		some varibales and make them available
 		to the class methods.
 		"""
-		
 		self.tasks = []
 		self.log_manager = LogManager()
 		self.log = self.log_manager.get_cron_log()
@@ -58,7 +60,6 @@ class CronManager():
 		:param cache_delay: Time lapse since last run in hours
 		:param cron: Cron object or child
 		"""
-		
 		if cron.ID not in self.log:
 			self.log_manager.generate_log(cron.ID)
 			return False

@@ -21,7 +21,8 @@ class Cron:
 	DETAILS_SELECTOR = '.detailsOffre > div:not(.content-area)'
 	OFFERS_SELECTOR = 'ul#myList .box.row'
 	TITLES_SELECTOR = '.text-col h4 a'
-	DESC_SELECTOR = '.text-col .entry-title a'		
+	DESC_SELECTOR = '.text-col .entry-title a'
+	PENDING = 'PENDING'		
 
 	def __init__(self):
 		self = self
@@ -103,22 +104,23 @@ class Cron:
 			desc = "".join([x.get_text() for x in node.select(self.DESC_SELECTOR)])
 			dates = self.extract_dates(node.get_text())
 
-			pubDate = None
-			expDate = None
+			pub_date = None
+			exp_date = None
 
 			if len(dates) > 1:
-				pubDate = dates[0]
-				expDate = dates[1]
+				pub_date = dates[0]
+				exp_date = dates[1]
 
 			# Check whether we have a valid url
 			if len(url) > 10: 
 				
 				# Extract additional details: degree, type of offers, etc.
-				print('{} {} {}'.format(url, title, desc, pubDate, expDate))
-				offer = Offer(url, title, desc, pubDate, expDate)
+				# print('{} {} {}'.format(url, title, desc, pub_date, exp_date))
+				offer = Offer(url, title, desc, pub_date, exp_date)
 				offer.content = self.extractContent(url, self.DETAILS_SELECTOR)
 				offer.degrees = self.extractDegrees(offer.content)
 				offer.set_type(self.extractType(offer.content))
+				offer.set_satus(self.PENDING)
 				offer.tags = [Tag(x) for x in Classifier().predict_category(offer)]
 				
 				# Save to database
