@@ -22,7 +22,6 @@ class TestDAO:
 	def tearDown(self):
 		with self.app.app_context():
 			db.session.remove()
-			db.drop_all()
 
 	def test_insert(self):
 		with self.app.app_context():
