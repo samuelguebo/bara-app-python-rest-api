@@ -4,3 +4,4 @@ __pycache__
 .env
 cron_log.json
 .DS_store
+testing.db

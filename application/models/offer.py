@@ -1,16 +1,15 @@
-from config import db
+from config import Config, db
 from .degree import Degree
 from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
 from marshmallow import fields
 from application.services.image_placeholder import ImagePlaceholder
 
-class Offer(db.Model):   
-
+class Offer(db.Model):   	
 	url = db.Column(db.VARCHAR(300), primary_key=True, unique=True)
 	title = db.Column(db.VARCHAR(300))
 	type = db.Column(db.String(64), nullable=True, default='PENDING')
 	status = db.Column(db.String(64), nullable=True)
-	content = db.Column(db.Text())
+	content = db.Column(db.VARCHAR(3000))
 	pub_date = db.Column(db.VARCHAR(300))
 	exp_date = db.Column(db.VARCHAR(300))
 
@@ -22,7 +21,8 @@ class Offer(db.Model):
 		self.exp_date = exp_date
 
 	def __repr__(self):
-		return '<Offer {} {}>'.format(self.title, self.type)
+		return '<Offer {} {} {} {}>'.format(self.title, self.type,
+			self.degrees, self.tags)
 
 	def set_satus(self, status):
 		self.status = status

@@ -1,7 +1,7 @@
 from application.services.aej_cron import AEJCron
 import flask
 from flask import Blueprint
-from flask import Flask, jsonify
+from flask import jsonify
 from application.services.educarriere_cron import EducarriereCron
 from application.services.atoo_cron import AtooCron
 from application.services.cron_manager import CronManager
@@ -17,6 +17,6 @@ def index():
     manager.add(AEJCron(page_number_limit))
     manager.add(AtooCron(page_number_limit))
     manager.execute()
-    logs = manager.get_log()
+    logs = manager.get_logs()
     
     return (jsonify(logs), 200)

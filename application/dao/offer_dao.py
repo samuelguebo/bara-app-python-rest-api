@@ -11,8 +11,12 @@ class OfferDao():
         db.create_all()
 
     def create(self, offer):
-        self.db.session.merge(offer)
-        self.db.session.commit()
-
+        try:
+            self.db.session.merge(offer)
+            self.db.session.commit()
+            return self.fetch(1)
+        except:
+            return False
+    
     def fetch(self, n):
         return Offer.query.limit(n)

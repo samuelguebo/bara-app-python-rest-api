@@ -1,9 +1,6 @@
-from config import db
-from sqlalchemy_serializer import SerializerMixin
+from config import db, Config
 
-
-class Degree(db.Model): 
-
+class Degree(db.Model):     
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64))
 

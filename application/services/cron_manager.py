@@ -75,7 +75,7 @@ class CronManager():
 		if cron.CACHE_DELAY > lapsed_time:
 			return True
 	
-	def get_log(self):
+	def get_logs(self):
 		return ['{} was updated {}.'.format(cron.ID, timeago.format(
 			self.get_latest_cron(cron))) for cron in self.tasks]
 
