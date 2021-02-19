@@ -1,6 +1,7 @@
 from application.services.log_manager import LogManager
 from time import time
 from datetime import datetime
+import timeago
 
 class CronManager():
 	"""
@@ -74,7 +75,10 @@ class CronManager():
 		if cron.CACHE_DELAY > lapsed_time:
 			return True
 	
-	
+	def get_log(self):
+		return ['{} was updated {}.'.format(cron.ID, timeago.format(
+			self.get_latest_cron(cron))) for cron in self.tasks]
+
 	def reset(self):
 		"""
 		Reset tasks list
