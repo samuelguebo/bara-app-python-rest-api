@@ -11,7 +11,7 @@ cron_bp = Blueprint('cron_bp', __name__)
 @cron_bp.route('/cron')
 def index():
     
-    page_number_limit = 3
+    page_number_limit = 5
     manager = CronManager()
     manager.add(EducarriereCron(page_number_limit))
     manager.add(AEJCron(page_number_limit))

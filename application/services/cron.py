@@ -23,7 +23,7 @@ class Cron:
 	DESC_SELECTOR = '.text-col .entry-title a'
 	PENDING = 'PENDING'		
 
-	def __init__(self, page_number):
+	def __init__(self, page_number=1):
 		self.page_number = page_number
 
 

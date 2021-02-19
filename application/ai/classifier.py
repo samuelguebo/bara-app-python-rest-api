@@ -28,26 +28,18 @@ class Classifier:
 
 		# Custom categories based on specific domain knowledge 
 		tags = {
-			0: 'Comptabilité / Finance',
-			1: 'Gestion de projets',
-			2: 'Communication / Marketing',
-			3: 'Entrepeneuriat',
-			4: 'Informatique',
-			5: 'Management',
-			6: 'Logistique / Transport',
-			7: 'Communication / Marketing',
+			0: 'Marketing',
+			1: 'Finance',
+			2: 'Informatique',
+			3: 'Assistanat',
+			4: 'Transport',
+			5: 'Marketing',
+			6: 'Management',
+			7: 'Communication',
+			8: 'Technicien',
+			9: 'Entrepreneuriat'
 		}
 		
-		"""
-			'Finance',
-			'Gestion de projets',
-			'Communication',
-			'Marketing,
-			'Entrepeneuriat',
-			'Informatique',
-			'Management',
-			'Transport',
-		"""
 		
 		tag_values = saved_model.transform(saved_vect.transform([offer.content]))
 
