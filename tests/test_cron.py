@@ -89,5 +89,3 @@ class TestCron:
 		print('{} {} {}'.format(degrees, type, dates))
 		
 		assert len(degrees) == 1
-		
-	

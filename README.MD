@@ -13,3 +13,10 @@ Install application dependencies with `pip install -r requirements.txt`.
 export FLASK_APP=wsgi.py 
 python wsgi.py
 ```
+## Upcoming features 
+* Auto deletion of the expired job offers
+* Extensive unit and integration tests
+* `/search` endpoint
+* `/tag` endpoint
+* `/admin` Dashboard 
+* Containerize with Docker

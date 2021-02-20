@@ -1,4 +1,6 @@
-## Photo credits (Unsplash)
+# Photo credits
+Illustrations are credited to various artists featured on [Unsplash.com](https://unsplash.com).
+Below is a list of their names and their profiles on Unsplash.
 
 ### Technology
 - [Daniel Josef](https://unsplash.com/@josef_photography)

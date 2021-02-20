@@ -42,4 +42,4 @@ class TestDAO:
 			print(offer)
 			print(type(result))
 			
-		assert type(result) in [Offer, bool]
+		assert type(result) in [Offer, tuple]
