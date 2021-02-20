@@ -5,3 +5,4 @@ __pycache__
 cron_log.json
 .DS_store
 testing.db
+.vscode

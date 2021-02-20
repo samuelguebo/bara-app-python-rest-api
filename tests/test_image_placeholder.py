@@ -1,4 +1,5 @@
 from application.services.image_placeholder import ImagePlaceholder
+from application.models.tag import Tag
 from flask import Flask
 
 class TestImagePlaceholder:
@@ -15,10 +16,9 @@ class TestImagePlaceholder:
 		of cached images
 		"""
 		with self.app.test_request_context():
-
-			images = ImagePlaceholder().get_cached_images('Technology')
+			images = ImagePlaceholder().get_cached_images('Informatique')
 			print(images)
-		
+			
 		assert isinstance(images, list)
 
 	def test_get_image(self):
@@ -28,7 +28,7 @@ class TestImagePlaceholder:
 		"""
 		
 		with self.app.test_request_context():
-			image = ImagePlaceholder().get_image('Technology')
+			image = ImagePlaceholder().get_image([Tag('Informatique')])
 			print(image)
 		
 		assert '.jpg' in image
