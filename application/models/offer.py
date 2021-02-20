@@ -10,8 +10,8 @@ class Offer(db.Model):
 	type = db.Column(db.String(64), nullable=True, default='PENDING')
 	status = db.Column(db.String(64), nullable=True)
 	content = db.Column(db.Text())
-	pub_date = db.Column(db.VARCHAR(300))
-	exp_date = db.Column(db.VARCHAR(300))
+	pub_date = db.Column(db.DateTime())
+	exp_date = db.Column(db.DateTime())
 	image = db.Column(db.VARCHAR(300), nullable=True)
 
 	def __init__(self, url, title, content, pub_date, exp_date):

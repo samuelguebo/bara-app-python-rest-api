@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from time import strptime
 from application.models.degree import Degree
 from application.models.tag import Tag
 from application.models.offer import DeegreeSchema, Offer, TagsSchema
@@ -135,11 +136,11 @@ class Cron:
 		of a job offer.
 		"""
 		datesRegx = "[0-9]{2}[\/\s]?[0-9]{2}[\/\s]?[0-9]{4}"
-		dates = re.findall(datesRegx, text)
+		dates = [datetime.strptime(date, '%d/%m/%Y') for date in re.findall(datesRegx, text)]
 		
 		if len(dates) < 1:	
 			# Default pub_date is now, and expiration is 2 weeks away
-			dates = [datetime.now().strftime('%d/%m/%Y'),
-						(datetime.now() + timedelta(days=14)).strftime('%d/%m/%Y')]
+			dates = [datetime.now(),
+						datetime.now() + timedelta(days=14)]
 		
 		return dates
