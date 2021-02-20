@@ -15,8 +15,8 @@ class TestCron:
 		out of the job description
 		"""
 		url = 'https://emploi.educarriere.ci/offre-69336-office-manager.html'
-		content = Cron().extractContent(url, EducarriereCron.DETAILS_SELECTOR)
-		type = Cron().extractType(content.upper())
+		content = Cron().extract_content(url, EducarriereCron.DETAILS_SELECTOR)
+		type = Cron().extract_type(content.upper())
 		print(type)
 		
 		assert 'CDI' in type
@@ -28,7 +28,7 @@ class TestCron:
 		"""
 		url = 'https://emploi.educarriere.ci/offre-69336-office-manager.html'
 		selector = '.detailsOffre > div:not(.content-area)'
-		content = Cron().extractContent(url, selector)
+		content = Cron().extract_content(url, selector)
 		
 		assert len(content) > 100
 
@@ -39,8 +39,8 @@ class TestCron:
 		"""
 		url = 'https://emploi.educarriere.ci/offre-69336-office-manager.html'
 		cron = EducarriereCron()
-		content = cron.extractContent(url, cron.DETAILS_SELECTOR)
-		degrees = cron.extractDegrees(content.upper())
+		content = cron.extract_content(url, cron.DETAILS_SELECTOR)
+		degrees = cron.extract_degrees(content.upper())
 		print(degrees)
 		
 		assert len(degrees) == 4
@@ -52,9 +52,9 @@ class TestCron:
 		"""
 		url = 'https://emploi.educarriere.ci/offre-69336-office-manager.html'
 		cron = EducarriereCron()
-		content = cron.extractContent(url, cron.DETAILS_SELECTOR)
-		degrees = cron.extractDegrees(content.upper())
-		type = cron.extractType(content.upper())
+		content = cron.extract_content(url, cron.DETAILS_SELECTOR)
+		degrees = cron.extract_degrees(content.upper())
+		type = cron.extract_type(content.upper())
 		dates = cron.extract_dates(content)
 		print('{} {} {}'.format(degrees, type, dates))
 		
@@ -67,9 +67,9 @@ class TestCron:
 		"""
 		url = 'http://www.atoo.ci/emploi/jobs/conseiller-technique-pme-h-f/'
 		cron = AtooCron()
-		content = cron.extractContent(url, cron.DETAILS_SELECTOR)
-		degrees = cron.extractDegrees(content.upper())
-		type = cron.extractType(content.upper())
+		content = cron.extract_content(url, cron.DETAILS_SELECTOR)
+		degrees = cron.extract_degrees(content.upper())
+		type = cron.extract_type(content.upper())
 		dates = cron.extract_dates(content)
 		print('{} {} {}'.format(degrees, type, dates))
 		
@@ -82,9 +82,9 @@ class TestCron:
 		"""
 		url = 'https://www.agenceemploijeunes.ci/site/offres-emplois/14316'
 		cron = AEJCron()
-		content = cron.extractContent(url, cron.DETAILS_SELECTOR)
-		degrees = cron.extractDegrees(content.upper())
-		type = cron.extractType(content.upper())
+		content = cron.extract_content(url, cron.DETAILS_SELECTOR)
+		degrees = cron.extract_degrees(content.upper())
+		type = cron.extract_type(content.upper())
 		dates = cron.extract_dates(content)
 		print('{} {} {}'.format(degrees, type, dates))
 		
