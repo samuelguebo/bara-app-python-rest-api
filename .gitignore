@@ -1,6 +1,5 @@
 __pycache__
 /venv
-/migrations
 .env
 cron_log.json
 .DS_store
