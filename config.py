@@ -23,6 +23,7 @@ class Config(object):
 	TYPE_REGEX = config('TYPE_REGEX')
 	DEFAULT_TYPE = config('DEFAULT_TYPE')
 	ROOT_FOLDER = config('ROOT_FOLDER')
+	CLEANUP_DEADLINE = config('CLEANUP_DEADLINE')
 
     
 class TestConfiguration():

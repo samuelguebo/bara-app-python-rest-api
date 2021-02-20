@@ -135,8 +135,8 @@ class Cron:
 		Extract dates from the content
 		of a job offer.
 		"""
-		datesRegx = "[0-9]{2}[\/\s]?[0-9]{2}[\/\s]?[0-9]{4}"
-		dates = [datetime.strptime(date, '%d/%m/%Y') for date in re.findall(datesRegx, text)]
+		datesRegx = "[0-9]{2}[\/\s][0-9]{2}[\/\s][0-9]{4}"
+		dates = [datetime.strptime(date.replace(' ', '/'), '%d/%m/%Y')for date in re.findall(datesRegx, text)]
 		
 		if len(dates) < 1:	
 			# Default pub_date is now, and expiration is 2 weeks away

@@ -14,9 +14,9 @@ class OfferDao():
         try:
             self.db.session.merge(offer)
             self.db.session.commit()
-            return self.fetch(1)
-        except:
-            return False
+            return self.fetch(1).first()
+        except Exception as e:
+            return e.args
     
     def fetch(self, n):
         return Offer.query.limit(n)
