@@ -9,9 +9,10 @@ class Offer(db.Model):
 	title = db.Column(db.VARCHAR(300))
 	type = db.Column(db.String(64), nullable=True, default='PENDING')
 	status = db.Column(db.String(64), nullable=True)
-	content = db.Column(db.VARCHAR(3000))
+	content = db.Column(db.Text())
 	pub_date = db.Column(db.VARCHAR(300))
 	exp_date = db.Column(db.VARCHAR(300))
+	image = db.Column(db.VARCHAR(300), nullable=True)
 
 	def __init__(self, url, title, content, pub_date, exp_date):
 		self.url = url
@@ -29,6 +30,9 @@ class Offer(db.Model):
 
 	def set_type(self, type):
 		self.type = type
+	
+	def set_image(self, tags):
+		self.image = ImagePlaceholder().get_image(tags)
 
 	# Many to Many relationship with Tag
 	offer_tags_table = db.Table('offer_tags',
@@ -66,14 +70,13 @@ class OfferSchema(SQLAlchemySchema):
 		model = Offer
 		include_relationships = True
 		load_instance = True
-
+	
 	url = auto_field()
 	title = auto_field()
+	image = auto_field()
 	pub_date = auto_field()
 	exp_date = auto_field()
 	type = auto_field()
 	content = auto_field()
 	degrees = fields.Nested(DeegreeSchema, many=True)
 	tags = fields.Nested(TagsSchema, many=True)
-	# TODO: Replace with dynamic tags
-	image = fields.Function(lambda x: ImagePlaceholder().get_image('Technology'))

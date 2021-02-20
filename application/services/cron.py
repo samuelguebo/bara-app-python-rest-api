@@ -27,7 +27,7 @@ class Cron:
 		self.page_number = page_number
 
 
-	def extractWithRegex(self, text, regexPattern, unique=False):
+	def extract_with_regex(self, text, regexPattern, unique=False):
 		"""
 		Use a Regex expression to extract certain portions of texts
 		
@@ -45,7 +45,7 @@ class Cron:
 		return matches
 
 
-	def extractContent(self, url, selector):
+	def extract_content(self, url, selector):
 		"""
 		Scan through url to get page content 
 		"""
@@ -60,12 +60,12 @@ class Cron:
 		return content.replace("\n\n", " ")
     
 
-	def extractDegrees(self, text):
+	def extract_degrees(self, text):
 		"""
 		Extract the education level requirements
 		"""
 		
-		degrees = self.extractWithRegex(text.upper(), Config.DEGREE_REGEX)
+		degrees = self.extract_with_regex(text.upper(), Config.DEGREE_REGEX)
 		if isinstance(degrees, list):
 			degrees = [Degree(x) for x in set(degrees)]
 		else:
@@ -74,12 +74,12 @@ class Cron:
 		return degrees
 
 
-	def extractType(self, text):
+	def extract_type(self, text):
 		"""
 		Extract the type of job offer
 		"""
 		
-		result = self.extractWithRegex(text.upper(), Config.TYPE_REGEX, True)
+		result = self.extract_with_regex(text.upper(), Config.TYPE_REGEX, True)
 		if len(result) < 1:
 			return Config.DEFAULT_TYPE
 		
@@ -116,11 +116,13 @@ class Cron:
 				# Extract additional details: degree, type of offers, etc.
 				# print('{} {} {}'.format(url, title, desc, pub_date, exp_date))
 				offer = Offer(url, title, desc, pub_date, exp_date)
-				offer.content = self.extractContent(url, self.DETAILS_SELECTOR)
-				offer.degrees = self.extractDegrees(offer.content)
-				offer.set_type(self.extractType(offer.content))
+				offer.content = self.extract_content(url, self.DETAILS_SELECTOR)
+				offer.degrees = self.extract_degrees(offer.content)
+				offer.set_type(self.extract_type(offer.content))
 				offer.set_satus(self.PENDING)
 				offer.tags = [Tag(x) for x in Classifier().predict_category(offer)]
+				if len(offer.tags) > 0:
+					offer.set_image(offer.tags)
 				
 				# Save to database
 				dao = OfferDao(db)

@@ -13,17 +13,18 @@ class ImagePlaceholder():
 		self = self
 	
 
-	def get_image(self, keyword):
+	def get_image(self, tags):
 		"""
 		Provide randomly an image based on a given
 		keyword related to the image
 
 		:param keyword: a word related to the image
 		"""
-
-		images = self.get_cached_images(keyword)
-		if len(images) > 1:
-			return images[random.randint(0, len(images)-1)]
+		if len(tags) > 0:
+			images = self.get_cached_images(tags[0].title)
+			
+			if len(images) > 1:
+				return images[random.randint(0, len(images)-1)]
 
 		return False
 
