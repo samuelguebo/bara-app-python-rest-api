@@ -1,4 +1,5 @@
 from application.services.log_manager import LogManager
+from application.services.thread_manager import ThreadManager
 from time import time
 from datetime import datetime
 import timeago
@@ -9,9 +10,6 @@ class CronManager():
 	unecessary cron tasks by relying on a log file,
 	a sort of cache, which contains ID and timestamp
 	of recently run cron operations.
-
-	TODO: Parrelizing operations through multiprocessing
-	:link: https://docs.python.org/3/library/multiprocessing.html
 	"""
 
 	def __init__(self):
@@ -44,14 +42,26 @@ class CronManager():
 
 	def execute(self):
 		"""
-		Process all cron operations in a sequential batch. 
-		TODO: explore asyncronicity
+		Process all cron operations in a 
+		sequential batch asyncronously
 		"""
+		thread_manager = ThreadManager(4, self.run_async)
+		thread_manager.create_pool()
+		
 		for cron in self.tasks:
 			if not self.has_cache(cron):
-				cron.run()
-				self.log_manager.generate_log(cron.ID)
+				thread_manager.add_worker(cron)
+		
+		if len(thread_manager.workers) > 1:
+			thread_manager.run()
 
+	def run_async(self, cron):
+		"""
+		Helper function to be used
+		with ThreadManager
+		"""
+		self.log_manager.generate_log(cron.ID)
+		cron.run()
 
 	def has_cache(self, cron):
 		""" 
@@ -84,4 +94,3 @@ class CronManager():
 		Reset tasks list
 		"""
 		self.tasks = []
-		
