@@ -51,13 +51,16 @@ class Cron:
 		Scan through url to get page content 
 		"""
 
-		html_doc = requests.get(url).text
-		soup = BeautifulSoup(html_doc, 'html.parser')
 		content = ""
+		try:
+			html_doc = requests.get(url).text
+			soup = BeautifulSoup(html_doc, 'html.parser')
 
-		for x in soup.select(selector):
-			content += x.get_text()
-
+			for x in soup.select(selector):
+				content += x.get_text()
+		except Exception as e:
+			pass
+		
 		return content.replace("\n\n", " ")
     
 

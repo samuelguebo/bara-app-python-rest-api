@@ -1,6 +1,6 @@
 from application.services.log_manager import LogManager
 from config import app
-from flask_executor import Executor
+from application.services.thread_manager import ThreadManager
 from config import app
 from time import time
 from datetime import datetime
@@ -13,7 +13,7 @@ class CronManager():
 	a sort of cache, which contains ID and timestamp
 	of recently run cron operations.
 	"""
-	executor = Executor(app)
+	
 
 	def __init__(self):
 		"""
@@ -24,6 +24,7 @@ class CronManager():
 		self.tasks = []
 		self.log_manager = LogManager()
 		self.log = self.log_manager.get_cron_log()
+		self.executor = ThreadManager()
 
 
 	def get_latest_cron(self, cron):
@@ -51,9 +52,11 @@ class CronManager():
 		
 		for cron in self.tasks:
 			if not self.has_cache(cron):
-				self.executor.submit(cron.run())
-				self.log_manager.generate_log(cron.ID)
-				
+				self.executor.add_worker(cron.run)
+				self.log_manager.generate_log(cron.ID)				
+			
+			# Process all operations in separate thread
+			self.executor.run()
 
 	def has_cache(self, cron):
 		""" 

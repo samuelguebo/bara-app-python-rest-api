@@ -8,6 +8,15 @@ Technical backend for Barra, a mobile applications featuring customized job offe
 ## Installing dependencies
 Install application dependencies with `pip install -r requirements.txt`.
 
+## Handle Database migrations
+
+```bash
+alembic init alembic
+alembic stamp head
+alembic revision --autogenerate -m "Latest database upgrade"
+alembic upgrade head
+```
+
 ## Quickstart the app
 ```bash
 export FLASK_APP=wsgi.py 

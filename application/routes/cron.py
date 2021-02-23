@@ -10,14 +10,13 @@ cron_bp = Blueprint('cron_bp', __name__)
 @cron_bp.route('/cron')
 def index():
     
-    page_number_limit = 5
+    page_number_limit = 1
     manager = CronManager()
-    manager.add(EducarriereCron(page_number_limit))
     manager.add(AEJCron(page_number_limit))
+    manager.add(EducarriereCron(page_number_limit))
     manager.add(AtooCron(page_number_limit))
     manager.add(CleanupCron())
     manager.execute()
-    # logs = manager.get_logs()
-    logs = {'hey': 50}
+    logs = manager.get_logs()
     
     return (jsonify(logs), 200)

@@ -23,11 +23,11 @@ class TestCron:
 
 	def tearDown(self):
 		with self.app.app_context():
-			db.session.remove()
+			db.remove()
 
 	def test_predict(self):
 		with self.app.app_context():
-			offer = Offer.query.first()
+			offer = db.query(Offer).first()
 			tags = Classifier().predict_category(offer)
 			print(offer.title, offer.url)
 			print(tags)

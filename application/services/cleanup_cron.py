@@ -15,11 +15,11 @@ class CleanupCron(Cron):
 		"""
 		cleanup_deadline = (datetime.now() -  timedelta(
 			days=int(Config.CLEANUP_DEADLINE)))
-		expired_offers = Offer.query.filter(
+		expired_offers = db.query(Offer).filter(
 			Offer.pub_date <= cleanup_deadline).all()
 
 		for expired_offer in expired_offers:
-			db.session.delete(expired_offer)
-		db.session.commit()
+			db.delete(expired_offer)
+		db.commit()
 		
 		return True

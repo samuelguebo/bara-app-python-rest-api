@@ -12,7 +12,7 @@ class ThreadManager:
 		self.workers = []
 
 
-	def add_worker(self, worker, params):
+	def add_worker(self, worker, params=None):
 		"""
 		Add tasks to the pool of workers
 
@@ -29,6 +29,9 @@ class ThreadManager:
 		thread pool
 		"""
 		for callback, params in self.workers: 
-			self.executor.submit(callback, params)
+			if params:
+				self.executor.submit(callback, params)
+			else:
+				self.executor.submit(callback)
 			
 		return self.workers

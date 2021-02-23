@@ -15,14 +15,14 @@ class TestThreading:
 	# executor = Executor(app)
 	executor = ThreadManager()
 	
-	def long_running_task(self, task):
+	def long_running_task(self, task='Maria'):
 		content = requests.get('https://jsonplaceholder.typicode.com/todos/1').text
 		print('data is: {}'.format(json.loads(content)))
 		EducarriereCron().run()
 
 	def test_run_pool(self):
 		with self.app.test_request_context():
-			self.executor.add_worker(self.long_running_task, 'Maria')
+			self.executor.add_worker(self.long_running_task)
 			self.executor.run()
 
     	
