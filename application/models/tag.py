@@ -1,11 +1,16 @@
-from config import Config, db
+from config import Config, db, Base
+from sqlalchemy import Column, Integer, String
+from sqlalchemy.types import DateTime
+from sqlalchemy import Table
 
-class Tag(db.Model): 
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.VARCHAR(300))
+class Tag(Base): 
+	__tablename__ = 'tag'
 
-    def __init__(self, title):
-        self.title = title
+	id = Column(Integer, primary_key=True)
+	title = Column(String(300))
 
-    def __repr__(self):
-        return '<Tag {}>'.format(self.title)
+	def __init__(self, title):
+		self.title = title
+
+	def __repr__(self):
+		return '<Tag {}>'.format(self.title)

@@ -1,11 +1,15 @@
-from config import db, Config
+from config import db, Config, SessionLocal, Base
+from sqlalchemy import Column, Integer, String, Text
 
-class Degree(db.Model):     
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(64))
 
-    def __init__(self, title):
-        self.title = title
+class Degree(Base):   
+	__tablename__ = 'degree'
 
-    def __repr__(self):
-        return '<Degree {}>'.format(self.title)
+	id = Column(Integer, primary_key=True)
+	title = Column(String(64))
+
+	def __init__(self, title):
+		self.title = title
+
+	def __repr__(self):
+		return '<Degree {}>'.format(self.title)

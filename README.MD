@@ -14,7 +14,8 @@ export FLASK_APP=wsgi.py
 python wsgi.py
 ```
 ## Upcoming features 
-* Auto deletion of the expired job offers
+[x] Auto deletion of the expired job offers
+[x] Parrelizing operations through multiprocessing
 * Extensive unit and integration tests
 * `/search` endpoint
 * `/tag` endpoint

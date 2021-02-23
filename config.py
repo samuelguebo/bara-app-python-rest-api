@@ -1,15 +1,12 @@
+import os
 from decouple import config
-from flask_sqlalchemy import SQLAlchemy
+from flask_executor import Executor
 from flask_migrate import Migrate
 from flask import Flask
 from flask_marshmallow import Marshmallow
-
-# Globally accessible libraries
-db = SQLAlchemy()
-migrate = Migrate()
-
-app = Flask(__name__)
-ma = Marshmallow(app)
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
 class Config(object):
 	SQLALCHEMY_DATABASE_URI = config('DATABASE_URL')
@@ -30,3 +27,19 @@ class TestConfiguration():
 	TESTING = True
 	WTF_CSRF_ENABLED = False
 	SQLALCHEMY_DATABASE_URI = 'sqlite:///:memory:'
+
+# Async
+engine = create_engine(
+    Config.SQLALCHEMY_DATABASE_URI
+)
+
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+Base = declarative_base()
+
+# Globally accessible libraries
+migrate = Migrate()
+app = Flask(__name__)
+app.config.from_object(Config)
+ma = Marshmallow(app)
+db = SessionLocal()
+executor = Executor(app)

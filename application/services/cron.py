@@ -2,13 +2,13 @@ from datetime import datetime, timedelta
 from time import strptime
 from application.models.degree import Degree
 from application.models.tag import Tag
-from application.models.offer import DeegreeSchema, Offer, TagsSchema
+from application.models.offer import Offer#, DeegreeSchema, TagsSchema
 from application.ai.classifier import Classifier
 from application.dao.offer_dao import OfferDao
 import re
 from bs4 import BeautifulSoup
 import requests
-from config import Config, db
+from config import Config
 
 class Cron:
 	"""
@@ -95,7 +95,8 @@ class Cron:
 		html_doc = requests.get(url).text
 		soup = BeautifulSoup(html_doc, 'html.parser')
 		nodes = soup.select(self.OFFERS_SELECTOR)
-		
+		dao = OfferDao()
+
 		for node in nodes:
 
 			# Data mapping
@@ -126,7 +127,7 @@ class Cron:
 					offer.set_image(offer.tags)
 				
 				# Save to database
-				dao = OfferDao(db)
+				print('saving {}'.format(offer))
 				dao.create(offer)
 
 

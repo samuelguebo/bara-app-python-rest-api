@@ -38,7 +38,7 @@ class TestDAO:
 			offer.tags = [Tag(x) for x in Classifier().predict_category(offer)]
 			
 			# Save to database
-			result = OfferDao(db).create(offer)
+			result = OfferDao().create(offer)
 			print(offer)
 			print(type(result))
 			

@@ -1,18 +1,22 @@
-from config import Config, db
+from config import db, Config, SessionLocal, Base
 from .degree import Degree
+from sqlalchemy import Column, Integer, String, Text, Table, ForeignKey
+from sqlalchemy.orm import relationship, backref
+from sqlalchemy.types import DateTime
 from marshmallow_sqlalchemy import SQLAlchemySchema, auto_field
 from marshmallow import fields
 from application.services.image_placeholder import ImagePlaceholder
 
-class Offer(db.Model):   	
-	url = db.Column(db.VARCHAR(300), primary_key=True, unique=True)
-	title = db.Column(db.VARCHAR(300))
-	type = db.Column(db.String(64), nullable=True, default='PENDING')
-	status = db.Column(db.String(64), nullable=True)
-	content = db.Column(db.Text())
-	pub_date = db.Column(db.DateTime())
-	exp_date = db.Column(db.DateTime())
-	image = db.Column(db.VARCHAR(300), nullable=True)
+class Offer(Base):  
+	__tablename__ = 'offer'
+	url = Column(String(300), primary_key=True, unique=True)
+	title = Column(String(300))
+	type = Column(String(64), nullable=True, default='PENDING')
+	status = Column(String(64), nullable=True)
+	content = Column(Text())
+	pub_date = Column(DateTime())
+	exp_date = Column(DateTime())
+	image = Column(String(300), nullable=True)
 
 	def __init__(self, url, title, content, pub_date, exp_date):
 		self.url = url
@@ -35,20 +39,22 @@ class Offer(db.Model):
 		self.image = ImagePlaceholder().get_image(tags)
 
 	# Many to Many relationship with Tag
-	offer_tags_table = db.Table('offer_tags',
-		db.Column('tag_id', db.Integer, db.ForeignKey('tag.id'), primary_key=True),
-		db.Column('offer_id', db.VARCHAR(300), db.ForeignKey('offer.url'), primary_key=True)
+	offer_tags_table = Table('offer_tags',
+		Base.metadata,
+		Column('tag_id', Integer, ForeignKey('tag.id'), primary_key=True),
+		Column('offer_id', String(300), ForeignKey('offer.url'), primary_key=True)
 	)
-	tags = db.relationship('Tag', secondary=offer_tags_table, lazy='subquery',
-		backref=db.backref('offers', lazy=True))
+	tags = relationship('Tag', secondary=offer_tags_table, lazy='subquery',
+		backref=backref('offers', lazy=True))
 
 	# Many to Many relationship with Degree
-	offer_degrees_table = db.Table('offer_degrees',
-		db.Column('degree_id', db.Integer, db.ForeignKey('degree.id'), primary_key=True),
-		db.Column('offer_id', db.VARCHAR(300), db.ForeignKey('offer.url'), primary_key=True)
+	offer_degrees_table = Table('offer_degrees',
+		Base.metadata,
+		Column('degree_id', Integer, ForeignKey('degree.id'), primary_key=True),
+		Column('offer_id', String(300), ForeignKey('offer.url'), primary_key=True)
 	)
-	degrees = db.relationship('Degree', secondary=offer_degrees_table, lazy='subquery',
-		backref=db.backref('offers', lazy=True))
+	degrees = relationship('Degree', secondary=offer_degrees_table, lazy='subquery',
+		backref=backref('offers', lazy=True))
 	
 # Serialization
 class DeegreeSchema(SQLAlchemySchema):
