@@ -25,7 +25,7 @@ python wsgi.py
 ## Upcoming features 
 [x] Auto deletion of the expired job offers
 [x] Parrelizing operations through multiprocessing
-* Extensive unit and integration tests
+* integration tests for Rest endpoints
 * `/search` endpoint
 * `/tag` endpoint
 * `/admin` Dashboard 

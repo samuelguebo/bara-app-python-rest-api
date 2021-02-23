@@ -22,4 +22,4 @@ class OfferDao():
             return e.args
     
     def fetch(self, n):
-        return Offer.query.limit(n)
+        return self.db.query(Offer).limit(n)
