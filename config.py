@@ -21,6 +21,7 @@ class Config(object):
 	DEFAULT_TYPE = config('DEFAULT_TYPE')
 	ROOT_FOLDER = config('ROOT_FOLDER')
 	CLEANUP_DEADLINE = config('CLEANUP_DEADLINE')
+	PAGE_NUMBER_LIMIT = config('PAGE_NUMBER_LIMIT')
 
     
 class TestConfiguration():
