@@ -9,7 +9,7 @@ from application.services.educarriere_cron import EducarriereCron
 
 cron_bp = Blueprint('cron_bp', __name__)
 
-@cron_bp.route('/cron')
+@cron_bp.route('/')
 def index():
     
     page_number_limit = Config.PAGE_NUMBER_LIMIT

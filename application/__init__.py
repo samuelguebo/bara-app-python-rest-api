@@ -4,7 +4,6 @@ from config import Config
 from config import db
 from config import migrate
 from .routes import home
-from .routes import test
 from .routes import cron
 from .routes import offer
 
@@ -19,9 +18,8 @@ def create_app(register_blueprints=True):
 	with app.app_context():
 		
 		if register_blueprints:
-			app.register_blueprint(test.test_bp)
 			app.register_blueprint(home.home_bp)
-			app.register_blueprint(cron.cron_bp)
+			app.register_blueprint(cron.cron_bp, url_prefix='/cron')
 			app.register_blueprint(offer.offer_bp, url_prefix='/offer')
 
 	return app
