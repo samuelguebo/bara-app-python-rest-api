@@ -16,10 +16,10 @@ def index():
     page_number_limit = Config.PAGE_NUMBER_LIMIT
     manager = CronManager()
     manager.add(EducarriereCron(page_number_limit))
-    '''manager.add(AEJCron(page_number_limit))
+    manager.add(AEJCron(page_number_limit))
     manager.add(EducarriereCron(page_number_limit))
-    manager.add(AtooCron(page_number_limit))'''
-    '''manager.add(CleanupCron())'''
+    manager.add(AtooCron(page_number_limit))
+    manager.add(CleanupCron())
     manager.execute()
     logs = manager.get_logs()
 
