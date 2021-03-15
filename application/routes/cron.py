@@ -9,16 +9,18 @@ from application.services.educarriere_cron import EducarriereCron
 
 cron_bp = Blueprint('cron_bp', __name__)
 
+
 @cron_bp.route('/')
 def index():
-    
+
     page_number_limit = Config.PAGE_NUMBER_LIMIT
     manager = CronManager()
-    manager.add(AEJCron(page_number_limit))
     manager.add(EducarriereCron(page_number_limit))
-    manager.add(AtooCron(page_number_limit))
-    manager.add(CleanupCron())
+    '''manager.add(AEJCron(page_number_limit))
+    manager.add(EducarriereCron(page_number_limit))
+    manager.add(AtooCron(page_number_limit))'''
+    '''manager.add(CleanupCron())'''
     manager.execute()
     logs = manager.get_logs()
-    
+
     return (jsonify(logs), 200)
