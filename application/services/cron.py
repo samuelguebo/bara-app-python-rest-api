@@ -127,33 +127,15 @@ class Cron:
                 offer.set_type(self.extract_type(offer.content))
                 offer.set_satus(self.PENDING)
 
-                # avoid recreating tags
-                generated_tags = Classifier().predict_category(offer)
-                for i in range(len(generated_tags)):
-                    cached_tag = dao.find_tag_by_title(generated_tags[i])
-                    if cached_tag is not None:
-                        generated_tags[i] = cached_tag
-                    else:
-                        generated_tags[i] = Tag(generated_tags[i])
-                offer.tags = generated_tags
-
-                # avoid recreating degrees
-                generated_degrees = self.extract_degrees(offer.content)
-                for i in range(len(generated_degrees)):
-                    cached_degree = dao.find_degree_by_title(
-                        generated_degrees[i].title)
-                    if cached_degree is not None:
-                        generated_degrees[i] = cached_degree
-                    else:
-                        generated_degrees[i] = generated_degrees[i]
-                offer.degrees = generated_degrees
+                offer.tags = dao.create_or_update_tags(offer)
+                offer.degrees = dao.create_or_update_degrees(offer, self)
 
                 if len(offer.tags) > 0:
                     offer.set_image(offer.tags)
 
                 # Save to database
                 print('saving {}'.format(offer))
-                dao.create(offer)
+                dao.create_or_update_offer(offer)
 
     def extract_dates(self, text):
         """

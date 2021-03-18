@@ -34,25 +34,15 @@ class TestDAO:
             dates = cron.extract_dates(content)
             pub_date, exp_date = (dates[0], dates[1])
             offer = Offer(url, title, content, pub_date, exp_date)
-            offer.degrees = cron.extract_degrees(offer.content)
             offer.set_type(cron.extract_type(offer.content))
             offer.set_satus(cron.PENDING)
 
-            # avoid recreating tag
             dao = OfferDao()
-            generated_tags = Classifier().predict_category(offer)
-            for i in range(len(generated_tags)):
-                if len(dao.find_tag_by_title(generated_tags[i])) > 0:
-                    generated_tags[i] = dao.find_tag_by_title(
-                        generated_tags[i])
-                else:
-                    generated_tags[i] = Tag(generated_tags[i])
-
-            offer.tags = generated_tags
+            offer.tags = dao.create_or_update_tags(offer)
+            offer.degrees = dao.create_or_update_degrees(offer, cron)
 
             # Save to database
-            result = dao.create(offer)
-            print(offer)
+            result = dao.create_or_update_offer(offer)
             print(type(result))
 
         assert type(result) in [Offer, tuple]
@@ -60,4 +50,4 @@ class TestDAO:
     def test_find_tag_by_title(self):
         tags = OfferDao().find_tag_by_title('Finance')
 
-        assert type(tags) is list
+        assert (type(tags) is Tag or tags is None)

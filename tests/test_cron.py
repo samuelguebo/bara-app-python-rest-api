@@ -13,7 +13,7 @@ class TestCron:
     """
     app = create_app()
 
-    '''def test_extract_type(self):
+    def test_extract_type(self):
         """
         Test the extraction of type of job offer
         out of the job description
@@ -92,7 +92,7 @@ class TestCron:
         dates = cron.extract_dates(content)
         print('{} {} {}'.format(degrees, type, dates))
 
-        assert len(degrees) == 1'''
+        assert len(degrees) == 1
 
     def test_scrape_edu(self):
         """
