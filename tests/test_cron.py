@@ -3,6 +3,7 @@ from application.services.atoo_cron import AtooCron
 from application.services.educarriere_cron import EducarriereCron
 from application.services.cron import Cron
 from application.services.log_manager import LogManager
+from application.services.cron_manager import CronManager
 from application import create_app, db
 
 
@@ -13,7 +14,7 @@ class TestCron:
     """
     app = create_app()
 
-    def test_extract_type(self):
+    '''def test_extract_type(self):
         """
         Test the extraction of type of job offer
         out of the job description
@@ -93,6 +94,7 @@ class TestCron:
         print('{} {} {}'.format(degrees, type, dates))
 
         assert len(degrees) == 1
+    '''
 
     def test_scrape_edu(self):
         """
@@ -100,9 +102,11 @@ class TestCron:
         extracting data from Educarriere
         """
         url = 'https://emploi.educarriere.ci/offre-69336-office-manager.html'
-        cron = EducarriereCron()
         LogManager().reset()
+        cron = EducarriereCron()
         with self.app.test_request_context():
-            cron.run()
+            manager = CronManager()
+            manager.add(cron)
+            manager.execute()
 
         assert "" != LogManager().get_entry(cron.ID)
