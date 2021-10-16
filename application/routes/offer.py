@@ -33,3 +33,10 @@ def find_by_tag(title):
     offer_schema = OfferSchema(many=True)
     data = offer_schema.dump(OfferDao().find_by_tag(title))
     return jsonify(data)
+
+@offer_bp.route('/search/<title>')
+def find_by_title(title):
+
+    offer_schema = OfferSchema(many=True)
+    data = offer_schema.dump(OfferDao().find_by_title(title))
+    return jsonify(data)

@@ -51,3 +51,8 @@ class TestDAO:
         tags = OfferDao().find_tag_by_title('Finance')
 
         assert (type(tags) is Tag or tags is None)
+
+    def test_offer_by_title(self):
+        offers = OfferDao().find_by_title('Finance')
+
+        assert (type(offers) is list)

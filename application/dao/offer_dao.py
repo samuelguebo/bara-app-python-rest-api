@@ -68,6 +68,9 @@ class OfferDao():
     def find_by_url(self, url):
         return self.db.query(Offer).filter(Offer.url == url).first()
 
+    def find_by_title(self, title):
+        return self.db.query(Offer).filter(Offer.content.contains(title)).all()
+
     def find_tag_by_title(self, title):
         return self.db.query(Tag).filter(Tag.title == title).first()
 
