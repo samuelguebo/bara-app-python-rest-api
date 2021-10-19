@@ -22,6 +22,7 @@ class Config(object):
 	ROOT_FOLDER = config('ROOT_FOLDER')
 	CLEANUP_DEADLINE = config('CLEANUP_DEADLINE')
 	PAGE_NUMBER_LIMIT = config('PAGE_NUMBER_LIMIT')
+	CACHE_DEFAULT_TIMEOUT = config('CACHE_DEFAULT_TIMEOUT')
 
     
 class TestConfiguration():
@@ -31,8 +32,9 @@ class TestConfiguration():
 
 # Async
 engine = create_engine(
-    Config.SQLALCHEMY_DATABASE_URI
+    Config.SQLALCHEMY_DATABASE_URI, query_cache_size=1200
 )
+
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()

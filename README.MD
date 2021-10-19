@@ -4,6 +4,8 @@ Technical backend for Barra, a mobile applications featuring customized job offe
 ## Requirements
 * [Python 3.x+](https://www.python.org/downloads/)
 * [PIP (Python Dependency Manager)](https://pip.pypa.io/en/stable/installing/)
+* Create and update the `.env` out of `example.env`
+
 
 ## Installing dependencies
 Install application dependencies with `pip install -r requirements.txt`.
