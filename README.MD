@@ -1,5 +1,5 @@
 # Barra API
-Technical backend for Barra, a mobile applications featuring customized job offers.
+Restful API for a mobile applications featuring customized job offers.
 
 ## Requirements
 * [Python 3.x+](https://www.python.org/downloads/)
@@ -24,6 +24,3 @@ alembic upgrade head
 export FLASK_APP=wsgi.py 
 python wsgi.py
 ```
-## Upcoming features 
-* `/admin` Dashboard 
-* Containerize with Docker
