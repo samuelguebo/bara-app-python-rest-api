@@ -4,7 +4,7 @@ beautifulsoup4==4.9.3
 certifi==2023.7.22
 chardet==4.0.0
 click==7.1.2
-Flask==1.1.2
+Flask==2.2.5
 flask-api-cache==0.1.1
 Flask-Executor==0.9.4
 flask-marshmallow==0.14.0
