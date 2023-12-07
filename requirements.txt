@@ -10,7 +10,7 @@ Flask-Executor==0.9.4
 flask-marshmallow==0.14.0
 Flask-Migrate==2.6.0
 Flask-SQLAlchemy==2.4.4
-gevent==21.1.2
+gevent>=23.9.0
 greenlet==1.0.0
 gunicorn==20.0.4
 idna==2.10
@@ -51,8 +51,8 @@ threadpoolctl==2.1.0
 timeago==1.0.15
 toml==0.10.2
 typing-extensions==3.7.4.3
-urllib3==1.26.7
-Werkzeug==2.2.3
+urllib3>=1.26.18
+werkzeug>=2.3.8
 zipp==3.4.0
 zope.event==4.5.0
 zope.interface==5.2.0
